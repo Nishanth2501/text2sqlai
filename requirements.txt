@@ -1,0 +1,15 @@
+pandas
+numpy
+sqlalchemy>=2.0
+duckdb
+datasets
+sqlglot
+fastapi
+uvicorn
+pydantic>=2
+python-dotenv
+streamlit
+langchain
+transformers
+accelerate
+peft
