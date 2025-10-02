@@ -1,0 +1,104 @@
+{
+  "dataset_name": "Text2SQL Demo Dataset",
+  "version": "1.0.0",
+  "description": "Custom demo dataset for Text-to-SQL evaluation with sample e-commerce queries",
+  "schema": {
+    "database": "demo",
+    "tables": {
+      "users": {
+        "columns": ["id", "name", "country"],
+        "description": "User information table"
+      },
+      "orders": {
+        "columns": ["id", "user_id", "created_at", "total"],
+        "description": "Order information table"
+      },
+      "items": {
+        "columns": ["id", "order_id", "sku", "price"],
+        "description": "Order items table"
+      }
+    }
+  },
+  "questions": [
+    {
+      "id": "demo_001",
+      "question": "Show me all users",
+      "sql": "SELECT id, name, country FROM users LIMIT 200;",
+      "expected_result_count": 4,
+      "difficulty": "easy",
+      "tags": ["select", "basic"]
+    },
+    {
+      "id": "demo_002", 
+      "question": "Top 5 skus by revenue",
+      "sql": "SELECT sku, SUM(price) as revenue FROM items GROUP BY sku ORDER BY revenue DESC LIMIT 5;",
+      "expected_result_count": 5,
+      "difficulty": "medium",
+      "tags": ["aggregation", "group_by", "order_by"]
+    },
+    {
+      "id": "demo_003",
+      "question": "Orders over 100 dollars",
+      "sql": "SELECT id, user_id, total FROM orders WHERE total > 100 ORDER BY total DESC LIMIT 200;",
+      "expected_result_count": 3,
+      "difficulty": "easy",
+      "tags": ["where", "filtering"]
+    },
+    {
+      "id": "demo_004",
+      "question": "Users from the US",
+      "sql": "SELECT id, name, country FROM users WHERE country = 'US' LIMIT 200;",
+      "expected_result_count": 2,
+      "difficulty": "easy",
+      "tags": ["where", "filtering"]
+    },
+    {
+      "id": "demo_005",
+      "question": "Total revenue by country",
+      "sql": "SELECT u.country, SUM(o.total) as revenue FROM orders o JOIN users u ON o.user_id = u.id GROUP BY u.country ORDER BY revenue DESC LIMIT 200;",
+      "expected_result_count": 3,
+      "difficulty": "hard",
+      "tags": ["join", "aggregation", "group_by"]
+    },
+    {
+      "id": "demo_006",
+      "question": "Average order value by user",
+      "sql": "SELECT u.name, AVG(o.total) as avg_order_value FROM orders o JOIN users u ON o.user_id = u.id GROUP BY u.id, u.name ORDER BY avg_order_value DESC LIMIT 200;",
+      "expected_result_count": 4,
+      "difficulty": "hard",
+      "tags": ["join", "aggregation", "group_by", "avg"]
+    },
+    {
+      "id": "demo_007",
+      "question": "Count of orders per user",
+      "sql": "SELECT u.name, COUNT(o.id) as order_count FROM users u LEFT JOIN orders o ON u.id = o.user_id GROUP BY u.id, u.name ORDER BY order_count DESC LIMIT 200;",
+      "expected_result_count": 4,
+      "difficulty": "medium",
+      "tags": ["join", "aggregation", "count"]
+    },
+    {
+      "id": "demo_008",
+      "question": "Users who have no orders",
+      "sql": "SELECT u.id, u.name FROM users u LEFT JOIN orders o ON u.id = o.user_id WHERE o.id IS NULL LIMIT 200;",
+      "expected_result_count": 0,
+      "difficulty": "medium",
+      "tags": ["join", "null_check"]
+    },
+    {
+      "id": "demo_009",
+      "question": "Most expensive item in each order",
+      "sql": "SELECT i.order_id, MAX(i.price) as max_price FROM items i GROUP BY i.order_id ORDER BY max_price DESC LIMIT 200;",
+      "expected_result_count": 5,
+      "difficulty": "medium",
+      "tags": ["aggregation", "max"]
+    },
+    {
+      "id": "demo_010",
+      "question": "Total revenue for orders created in 2025",
+      "sql": "SELECT SUM(total) as total_revenue FROM orders WHERE created_at LIKE '2025%' LIMIT 200;",
+      "expected_result_count": 1,
+      "difficulty": "medium",
+      "tags": ["aggregation", "date_filter", "sum"]
+    }
+  ]
+}
