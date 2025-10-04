@@ -124,12 +124,16 @@ if gen_button and question.strip():
     try:
         # build schema text for prompting (or empty if disabled)
         schema_txt = get_schema_text(db_url) if show_schema else "tables: (schema suppressed)"
-        gen = T2SQLGenerator(schema_txt=schema_txt)
+        
+        # Add loading indicator for model initialization
+        with st.spinner("🔄 Initializing AI model (this may take a moment on first use)..."):
+            gen = T2SQLGenerator(schema_txt=schema_txt)
 
-        t0 = time.time()
-        sql_raw = gen.generate(question.strip())
-        sql_safe = ensure_limit(sql_raw, default_limit=int(auto_limit))
-        gen_ms = int((time.time() - t0) * 1000)
+        with st.spinner("🧠 Generating SQL..."):
+            t0 = time.time()
+            sql_raw = gen.generate(question.strip())
+            sql_safe = ensure_limit(sql_raw, default_limit=int(auto_limit))
+            gen_ms = int((time.time() - t0) * 1000)
 
         st.subheader("🧾 Generated SQL")
         st.code(sql_safe, language="sql")
@@ -169,8 +173,9 @@ if gen_button and question.strip():
                 )
 
     except Exception as e:
-        st.error(f"Generation error: {e}")
-        with st.expander("Traceback"):
+        st.error(f"❌ Generation error: {e}")
+        st.warning("This might be due to memory limitations in the cloud environment. Try refreshing the page or using simpler queries.")
+        with st.expander("Technical Details"):
             st.code(traceback.format_exc())
 
 # -------------------------
