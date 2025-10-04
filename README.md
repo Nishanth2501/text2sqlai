@@ -206,12 +206,3 @@ If you run into issues:
 3. **Check dependencies** - ensure all packages are installed with `make install`
 4. **Review the evaluation report** - it often provides insights into what's working and what isn't
 
-## Contributing
-
-This project is designed to be educational and extensible. Feel free to experiment with different prompting strategies, add new evaluation metrics, or extend the functionality. The modular design makes it easy to add new features without breaking existing functionality.
-
-Remember, the goal is not just to build a working system, but to understand the principles behind effective Text-to-SQL generation and how to measure and improve such systems.
-
----
-
-*This project demonstrates the power of combining modern AI techniques with good engineering practices to solve real-world problems. It's a testament to the fact that you don't always need massive datasets or custom training to build effective AI applications - sometimes, smart prompt engineering and careful design can take you a long way.*
