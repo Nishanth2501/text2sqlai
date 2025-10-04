@@ -33,6 +33,16 @@ make ui
 
 That's it! You should now have a web interface running at `http://localhost:8503` where you can start asking questions about your data.
 
+## 🌐 Live Demo
+
+**Try the live application:** [https://text2sqlai-uutkpw69dhrqmmg6ghz68i.streamlit.app/](https://text2sqlai-uutkpw69dhrqmmg6ghz68i.streamlit.app/)
+
+The live demo allows you to:
+- Ask natural language questions about the demo database
+- See real-time SQL generation using Flan-T5
+- Execute queries and view results
+- Explore the full text2sql functionality
+
 ### What You'll See
 
 The interface is designed to be intuitive. You'll find:
